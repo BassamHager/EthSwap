@@ -1,11 +1,19 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import Web3 from "web3";
+import EthSwap from "../abis/EthSwap.json";
+import Token from "../abis/Token.json";
+// components
 import Navbar from "./Navbar";
+import Main from "./Main";
 
 const App = () => {
   const [account, setAccount] = useState("");
   const [ethBalance, setEthBalance] = useState("");
+  const [token, setToken] = useState({});
+  const [ethSwap, setEthSwap] = useState({});
+  const [tokenBalance, setTokenBalance] = useState("0");
+  const [loading, setLoading] = useState(true);
 
   const loadBlockchainData = useCallback(async () => {
     try {
@@ -18,11 +26,30 @@ const App = () => {
       const ethBal = await web3.eth.getBalance(account);
       setEthBalance(ethBal);
 
-      console.log(ethBalance);
+      // load Token
+      const { networks, abi } = Token;
+      const networkId = await web3.eth.net.getId();
+      const tokenData = networks[networkId];
+      if (tokenData) {
+        const token = new web3.eth.Contract(abi, tokenData.address);
+        setToken(token);
+        const tokenBal = await token.methods.balanceOf(account).call();
+        setTokenBalance(tokenBal.toString());
+      } else window.alert("Token contract not deployed to detected network!");
+
+      // load EthSwap
+      const ethSwapData = EthSwap.networks[networkId];
+      if (ethSwapData) {
+        const ethSwap = new web3.eth.Contract(abi, ethSwapData.address);
+        setEthSwap(ethSwap);
+        console.log(ethSwap);
+      } else window.alert("EthSwap contract not deployed to detected network!");
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
-  }, [account, ethBalance]);
+    setLoading(false);
+  }, [account]);
 
   const loadWeb3 = async () => {
     window.addEventListener("load", async () => {
@@ -61,7 +88,7 @@ const App = () => {
   useEffect(() => {
     loadWeb3();
     loadBlockchainData();
-  }, [loadBlockchainData, loadWeb3]);
+  }, [loadBlockchainData]);
 
   return (
     <div>
@@ -70,7 +97,13 @@ const App = () => {
         <div className="row">
           <main role="main" className="col-lg-12 d-flex text-center">
             <div className="content mr-auto ml-auto">
-              <h1>one</h1>
+              {!loading ? (
+                <Main />
+              ) : (
+                <h2 id="loader" className="text-center">
+                  Loading...
+                </h2>
+              )}
             </div>
           </main>
         </div>
