@@ -7,8 +7,23 @@ const Main = () => {
 
   return (
     <div id="content">
-      <div className="card mb-4">
-        <div className="card-body">
+      <div
+        className="card mb-4"
+        style={{
+          overflow: "hidden",
+          borderRadius: "50%",
+          background: "transparent",
+        }}
+      >
+        <div
+          className="card-body"
+          style={{
+            padding: "100px",
+            // background: "rgba($color:#000 ,$alpha:0.5)",
+            background: "rgba(0,0,0 ,0.9)",
+            // background: " blue",
+          }}
+        >
           <form
             className="mb-3"
             // onSubmit={(event) => {
@@ -43,10 +58,21 @@ const Main = () => {
                 className="form-control form-control-lg"
                 placeholder="0"
                 required
+                style={{ padding: "40px" }}
               />
               <div className="input-group-append">
                 <div className="input-group-text">
-                  <img src={ethLogo} height="32" alt="" />
+                  <img
+                    src={ethLogo}
+                    // height="32"
+                    alt="eth logo"
+                    style={{
+                      borderRadius: "50%",
+                      width: "50px",
+                      height: "50px",
+                      margin: "0 10px",
+                    }}
+                  />
                   ETH
                 </div>
               </div>
@@ -67,10 +93,21 @@ const Main = () => {
                 placeholder="0"
                 // value={this.state.output}
                 disabled
+                style={{ padding: "40px" }}
               />
               <div className="input-group-append">
                 <div className="input-group-text">
-                  <img src={tokenLogo} height="32" alt="" />
+                  <img
+                    src={tokenLogo}
+                    height="32"
+                    alt=""
+                    style={{
+                      borderRadius: "50%",
+                      width: "50px",
+                      height: "50px",
+                      margin: "0 10px",
+                    }}
+                  />
                   DApp
                 </div>
               </div>
@@ -79,7 +116,11 @@ const Main = () => {
               <span className="float-left text-muted">Exchange Rate</span>
               <span className="float-right text-muted">1 ETH = 100 DApp</span>
             </div>
-            <button type="submit" className="btn btn-primary btn-block btn-lg">
+            <button
+              type="submit"
+              className="btn btn-primary btn-block btn-lg"
+              style={{ padding: "40px" }}
+            >
               SWAP!
             </button>
           </form>

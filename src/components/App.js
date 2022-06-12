@@ -6,6 +6,8 @@ import Token from "../abis/Token.json";
 // components
 import Navbar from "./Navbar";
 import Main from "./Main";
+// assets
+import bgImg from "../assets/eth-bg.jpeg";
 
 const App = () => {
   const [account, setAccount] = useState("");
@@ -86,7 +88,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    loadWeb3();
+    // loadWeb3();
     loadBlockchainData();
   }, [loadBlockchainData]);
 
@@ -95,8 +97,22 @@ const App = () => {
       <Navbar acc={account || "#"} />
       <div className="container-fluid mt-5">
         <div className="row">
-          <main role="main" className="col-lg-12 d-flex text-center">
-            <div className="content mr-auto ml-auto">
+          <main
+            role="main"
+            className="col-lg-12 d-flex text-center"
+            style={{
+              height: "100vh",
+              backgroundImage: `url(${bgImg})`,
+              backgroundSize: "cover",
+            }}
+          >
+            <div
+              className="content mr-auto ml-auto"
+              style={{
+                display: "grid",
+                placeItems: "center",
+              }}
+            >
               {!loading ? (
                 <Main />
               ) : (
